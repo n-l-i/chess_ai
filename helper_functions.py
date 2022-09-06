@@ -67,7 +67,7 @@ def get_parameters(board,colour):
         rank_factor = chess.square_rank(square)
         if rank_factor > 3:
             rank_factor = 7-rank_factor
-        parameters["friend_centre"] += file_factor*rank_factor
+        parameters["friend_centre"] += (file_factor+1)*(rank_factor+1)
     parameters["enemy_centre"] = 0
     for square,_ in pieces[not colour]:
         file_factor = chess.square_file(square)
@@ -76,7 +76,7 @@ def get_parameters(board,colour):
         rank_factor = chess.square_rank(square)
         if rank_factor > 3:
             rank_factor = 7-rank_factor
-        parameters["enemy_centre"] += file_factor*rank_factor
+        parameters["enemy_centre"] += (file_factor+1)*(rank_factor+1)
     return parameters
 
 def get_pieces(self):
