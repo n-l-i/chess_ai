@@ -1,13 +1,15 @@
 
-from copy import copy
+from copy import deepcopy
 from helper_functions import get_parameters
+from time import time
 
 class Minimax():
     def __init__(self,board):
-        self.board = board
-        self.colour = board.turn
+        self.board = deepcopy(board)
+        self.colour = self.board.turn
         self.counter = 0
-        self.moves = board.legal_moves
+        self.moves = self.board.legal_moves
+        self.end_time = -1
     
     def min_or_max(self,colour):
         if colour == self.colour:
@@ -15,14 +17,22 @@ class Minimax():
         return min
     
     def score(self,depth):
-        for i in range(1,depth+1):
-            self.counter = 0
-            _,scores = self.minimax_score(self.board,i,-1000,1000,self.moves)
-            scores = sorted(scores,key=lambda x: x[1],reverse=True)
-            self.moves = [move for move,_ in scores]
+        depth = 100
+        self.end_time = time()+10
+        try:
+            for i in range(1,depth+1):
+                self.counter = 0
+                _,scores = self.minimax_score(self.board,i,-1000,1000,self.moves)
+                scores = sorted(scores,key=lambda x: x[1],reverse=True)
+                self.moves = [move for move,_ in scores]
+        except TimeoutError:
+            print("Layers checked:",i-1)
+            return scores
         return scores
 
     def minimax_score(self,board,depth,alpha,beta,moves):
+        if time() > self.end_time:
+            raise TimeoutError
         if depth == 0 or board.outcome() is not None:
             self.counter += 1
             return Minimax.evaluate(board,self.colour),[]

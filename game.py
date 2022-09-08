@@ -5,7 +5,7 @@ from random import choice,uniform
 def push_move(board,move,):
     move = chess.Move.from_uci(move)
     if move not in board.legal_moves:
-        raise ValueError
+        raise ValueError(f"{move} is not a legal move.")
     board.push(move)
     return board
 

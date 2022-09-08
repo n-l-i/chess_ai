@@ -60,23 +60,31 @@ def get_parameters(board,colour):
         if piece.piece_type == chess.QUEEN:
             parameters["enemy_attacked_pieces"] += 9
     parameters["friend_centre"] = 0
-    for square,_ in pieces[colour]:
+    for square,piece in pieces[colour]:
+        rank_factor = chess.square_rank(square)
         file_factor = chess.square_file(square)
         if file_factor > 3:
             file_factor = 7-file_factor
-        rank_factor = chess.square_rank(square)
-        if rank_factor > 3:
-            rank_factor = 7-rank_factor
-        parameters["friend_centre"] += (file_factor+1)*(rank_factor+1)
+        if piece.piece_type == chess.PAWN:
+            if colour == chess.BLACK:
+                rank_factor = 7-rank_factor
+            parameters["friend_centre"] += pow(rank_factor+1,2)+file_factor
+        else:
+            if rank_factor > 3:
+                rank_factor = 7-rank_factor
+            parameters["friend_centre"] += (file_factor+1)*(rank_factor+1)
     parameters["enemy_centre"] = 0
-    for square,_ in pieces[not colour]:
-        file_factor = chess.square_file(square)
-        if file_factor > 3:
-            file_factor = 7-file_factor
+    for square,piece in pieces[not colour]:
         rank_factor = chess.square_rank(square)
-        if rank_factor > 3:
-            rank_factor = 7-rank_factor
-        parameters["enemy_centre"] += (file_factor+1)*(rank_factor+1)
+        if piece.piece_type == chess.PAWN:
+            parameters["enemy_centre"] += pow(rank_factor+1,2)
+        else:
+            if rank_factor > 3:
+                rank_factor = 7-rank_factor
+            file_factor = chess.square_file(square)
+            if file_factor > 3:
+                file_factor = 7-file_factor
+            parameters["enemy_centre"] += (file_factor+1)*(rank_factor+1)
     return parameters
 
 def get_pieces(self):
