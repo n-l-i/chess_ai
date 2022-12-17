@@ -13,8 +13,8 @@ class Ai():
     def set_colour(self,colour):
         self.colour = colour
 
-    def score_moves(self,board,depth):
+    def score_moves(self,board,thinking_time):
         minimax = Minimax(board)
-        scores = minimax.score(depth)
+        scores = minimax.score(thinking_time)
         scores = sorted(scores,key=lambda x: x[1],reverse=True)
         return scores

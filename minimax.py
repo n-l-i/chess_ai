@@ -16,17 +16,19 @@ class Minimax():
             return max
         return min
     
-    def score(self,depth):
-        depth = 100
-        self.end_time = time()+10
+    def score(self,thinking_time):
+        self.moves = self.board.legal_moves
+        self.end_time = time()+thinking_time
         try:
-            for i in range(1,depth+1):
+            depth = 0
+            while True:
                 self.counter = 0
-                _,scores = self.minimax_score(self.board,i,-1000,1000,self.moves)
+                _,scores = self.minimax_score(self.board,depth,-1000,1000,self.moves)
                 scores = sorted(scores,key=lambda x: x[1],reverse=True)
                 self.moves = [move for move,_ in scores]
+                depth += 1
         except TimeoutError:
-            print("Layers checked:",i-1)
+            print("Layers checked:",depth-1)
             return scores
         return scores
 

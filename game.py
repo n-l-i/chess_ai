@@ -12,8 +12,8 @@ def push_move(board,move,):
 def get_ai_move(board):
     ai = Ai("ai")
     ai.set_colour(board.turn)
-    depth = choice((4,))
-    scored_moves = ai.score_moves(board,depth)
+    thinking_time = choice(range(5,15))
+    scored_moves = ai.score_moves(board,thinking_time)
     ai_move = choose_move(scored_moves)
     return ai_move
 
