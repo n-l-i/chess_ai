@@ -20,7 +20,7 @@ class Minimax():
         self.moves = self.board.legal_moves
         self.end_time = time()+thinking_time
         try:
-            depth = 0
+            depth = 1
             while True:
                 self.counter = 0
                 _,scores = self.minimax_score(self.board,depth,-1000,1000,self.moves)
