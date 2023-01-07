@@ -12,7 +12,7 @@ def push_move(board,move,):
 def get_ai_move(board,thinking_time):
     ai = Ai("ai")
     ai.set_colour(board.turn)
-    thinking_time = thinking_time*(range(75,150)/100)
+    thinking_time = thinking_time*(choice(range(75,150))/100)
     scored_moves = ai.score_moves(board,thinking_time)
     ai_move = choose_move(scored_moves)
     return ai_move
